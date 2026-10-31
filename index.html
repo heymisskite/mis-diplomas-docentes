@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MIS DIPLOMAS DOCENTES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&family=Lora:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Merriweather:wght@400;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5fbff;
+  --panel:#ffffff;
+  --line:#d6e7f2;
+  --text:#1f2937;
+  --muted:#667085;
+  --accent:#4e9fc9;
+  --accent-soft:#e8f7ff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+input,select,textarea{outline:none}
+.app{min-height:100vh;display:flex;flex-direction:column}
+header{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line);padding:16px 20px;display:flex;gap:16px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.brand h1{margin:0;font-size:28px;line-height:1.1}
+.brand p{margin:5px 0 0;color:var(--muted);font-size:14px}
+.head-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{padding:7px 10px;border-radius:999px;background:#fff8dc;border:1px solid #f2df9c;color:#6f5710;font-weight:800;font-size:12px}
+.btn{border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:12px;color:var(--text);font-weight:700}
+.btn:hover{background:#f8fbfd}
+.btn.primary{background:#bfe8fb;border-color:#87d0ef}
+.btn.soft{background:#eef8fd}
+.btn.danger{color:#b42318;border-color:#f3c1bc}
+.btn.small{padding:7px 10px;border-radius:10px;font-size:13px}
+main{padding:18px;display:grid;grid-template-columns:minmax(360px,560px) minmax(0,1fr);gap:18px;align-items:start}
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 5px 18px rgba(33,71,102,.05)}
+.panel h2{margin:0;font-size:18px}
+.section{margin-bottom:18px}
+.section:last-child{margin-bottom:0}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.field label{font-size:13px;font-weight:800;color:#344054}
+.field input,.field select,.field textarea{width:100%;border:1px solid #cdddea;border-radius:12px;background:#fff;padding:10px 12px;color:#111827}
+.field textarea{resize:vertical;min-height:86px;line-height:1.45}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#8bcce9;box-shadow:0 0 0 3px rgba(125,201,236,.16)}
+.hint{font-size:12px;color:var(--muted);line-height:1.45}
+.separator{height:1px;background:var(--line);margin:16px 0}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.tab{padding:11px;border:1px solid var(--line);border-radius:12px;background:#fff;font-weight:800}
+.tab.active{background:#eaf7fd;border-color:#9ddbf4}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.template-chips,.saved-templates{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:700}
+.chip.active{background:#eaf7fd;border-color:#9ddbf4}
+
+.font-dropdown{position:relative}
+.font-dropdown-btn{width:100%;border:1px solid #cdddea;border-radius:12px;background:#fff;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;color:#111827}
+.font-dropdown-btn:focus{border-color:#8bcce9;box-shadow:0 0 0 3px rgba(125,201,236,.16)}
+.font-current{display:grid;grid-template-columns:minmax(105px,1fr) minmax(110px,1fr);align-items:center;gap:12px;width:100%}
+.font-current-name{font-size:13px;font-weight:700;color:#475467;font-family:Inter,sans-serif}
+.font-current-sample{font-size:21px;line-height:1.05;color:#17324d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.font-caret{font-size:12px;color:#667085;transition:transform .15s ease}
+.font-dropdown.open .font-caret{transform:rotate(180deg)}
+.font-dropdown-menu{display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:45;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 36px rgba(25,60,90,.16);padding:6px;max-height:330px;overflow:auto}
+.font-dropdown.open .font-dropdown-menu{display:block}
+.font-menu-option{width:100%;border:0;background:#fff;border-radius:10px;padding:10px 11px;display:grid;grid-template-columns:minmax(115px,1fr) minmax(120px,1fr);align-items:center;gap:12px;text-align:left}
+.font-menu-option:hover,.font-menu-option.active{background:#eaf7fd}
+.font-menu-option .name{font:700 13px Inter,sans-serif;color:#475467}
+.font-menu-option .sample{font-size:22px;line-height:1.05;color:#17324d;white-space:nowrap}
+.range-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.range-row input[type=range]{width:100%}
+.range-value{min-width:48px;text-align:right;font-size:13px;color:#475467;font-weight:700}
+
+.preview-wrap{position:sticky;top:92px}
+.preview-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.preview-shell{background:#edf7fb;border:1px solid var(--line);border-radius:20px;padding:16px}
+.cert-stage{display:flex;justify-content:center;align-items:center;min-height:520px}
+.certificate{position:relative;background:#fff;width:100%;max-width:1120px;aspect-ratio:1.414/1;border-radius:14px;overflow:hidden;box-shadow:0 12px 38px rgba(30,80,110,.14)}
+.certificate.vertical{max-width:790px;aspect-ratio:1/1.414}
+.cert-bg{position:absolute;inset:0}
+.custom-design-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0.5}
+.certificate.custom-design .cert-bg{display:none}
+.certificate.custom-design::before,.certificate.custom-design::after{display:none}
+.certificate.custom-design .cert-inner{border:none!important;background:transparent!important;box-shadow:none!important}
+.certificate.custom-design .cert-inner::before,.certificate.custom-design .cert-inner::after{display:none!important}
+.cert-inner{position:absolute;inset:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0;padding:26px 26px 22px;overflow:hidden}.cert-inner>*{position:relative;z-index:2;flex-shrink:0}.cert-inner::before,.cert-inner::after{z-index:0;pointer-events:none}
+.cert-logo{position:absolute;left:40px;top:30px;max-width:104px;max-height:78px;object-fit:contain;background:rgba(255,255,255,.72);padding:6px 8px;border-radius:12px;box-shadow:0 4px 14px rgba(15,23,42,.05)}
+.cert-school{font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#64748b;font-weight:800;margin-top:2px;margin-bottom:18px}
+.cert-title{margin:0 auto 26px;color:#17324d;line-height:1.02;max-width:82%;width:82%;text-wrap:balance}
+.cert-kicker{font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#6b7280;font-weight:800;margin-top:0;margin-bottom:22px}
+.cert-name{margin:0;line-height:1.02;padding:0 10px 3px;border-bottom:2px solid currentColor;max-width:76%;width:76%;text-wrap:balance}
+.cert-recognition{font-size:27px;font-weight:800;color:#243243;margin-top:28px;max-width:78%;text-wrap:balance;line-height:1.18}
+.cert-message{margin:18px auto 0;max-width:74%;font-size:21px;line-height:1.45;color:#475467;white-space:pre-wrap;text-wrap:pretty}
+.cert-meta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:24px;color:#667085;font-size:14px;font-weight:700}
+.cert-meta span{padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid rgba(148,163,184,.22)}
+.cert-bottom{display:grid;grid-template-columns:1fr 1fr;gap:42px;width:76%;align-items:end;margin-top:18px;padding-top:0}
+.sign-slot{display:grid;grid-template-rows:54px auto;align-items:end;justify-items:center;min-height:84px;width:100%}
+.sign-slot .sig-space{height:54px;width:100%;display:flex;align-items:flex-end;justify-content:center}
+.sign-slot .sig-img{max-width:200px;max-height:50px;object-fit:contain;display:block;filter:drop-shadow(0 2px 2px rgba(0,0,0,.05))}
+.sign-slot .line{width:100%;border-top:1px solid #94a3b8;margin-top:5px;padding-top:6px;font-size:13px;color:#475467;min-height:24px;text-align:center;font-weight:600}
+.cert-inner.font-playfair .cert-title,.cert-inner.font-playfair .cert-name{font-family:'Playfair Display',Georgia, serif}
+.cert-inner.font-dm .cert-title,.cert-inner.font-dm .cert-name{font-family:'DM Serif Display','Times New Roman', serif}
+.cert-inner.font-cormorant .cert-title,.cert-inner.font-cormorant .cert-name{font-family:'Cormorant Garamond',Baskerville, Georgia, serif}
+.cert-inner.font-lora .cert-title,.cert-inner.font-lora .cert-name{font-family:'Lora','Palatino Linotype', Georgia, serif}
+.cert-inner.font-merriweather .cert-title,.cert-inner.font-merriweather .cert-name{font-family:'Merriweather',Cambria, Georgia, serif}
+.cert-inner.font-montserrat .cert-title,.cert-inner.font-montserrat .cert-name{font-family:'Montserrat',Arial, sans-serif}
+.cert-inner.font-raleway .cert-title,.cert-inner.font-raleway .cert-name{font-family:'Raleway','Helvetica Neue', Helvetica, Arial, sans-serif}
+.cert-inner.font-poppins .cert-title,.cert-inner.font-poppins .cert-name{font-family:'Poppins','Trebuchet MS', Arial, sans-serif}
+.cert-inner.font-quicksand .cert-title,.cert-inner.font-quicksand .cert-name{font-family:'Quicksand','Arial Rounded MT Bold', 'Trebuchet MS', sans-serif}
+.cert-inner.font-manrope .cert-title,.cert-inner.font-manrope .cert-name{font-family:'Manrope',Verdana, Arial, sans-serif}
+
+.design-elegante .cert-bg{background:linear-gradient(135deg,#fffdf8,#fff8e8)}
+.design-elegante .cert-inner{border:5px double var(--d-accent);background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.88)),radial-gradient(circle at top left,var(--d-soft) 0 15%,transparent 17%),radial-gradient(circle at bottom right,var(--d-soft) 0 15%,transparent 17%)}
+.design-elegante .cert-title{font-size:48px}.design-elegante .cert-name{font-size:56px;color:var(--d-accent)}
+
+.design-moderno .cert-bg{background:linear-gradient(145deg,#ffffff,#f6fcff)}
+.design-moderno .cert-inner{border:2px solid var(--d-accent);background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.96))}
+.design-moderno .cert-inner::before,.design-moderno .cert-inner::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:var(--d-soft);opacity:.9}
+.design-moderno .cert-inner::before{left:-60px;top:-60px;opacity:.55}.design-moderno .cert-inner::after{right:-50px;bottom:-50px;opacity:.55}
+.design-moderno .cert-title{font-size:44px}.design-moderno .cert-name{font-size:52px;color:var(--d-accent)}
+
+.design-acuarela .cert-bg{background:linear-gradient(145deg,#ffffff,#fcfeff)}
+.design-acuarela .cert-inner{border:1.5px solid color-mix(in srgb,var(--d-accent) 60%, white)}
+.design-acuarela .cert-inner::before,.design-acuarela .cert-inner::after{content:"";position:absolute;inset:auto;border-radius:999px;filter:blur(2px)}
+.design-acuarela .cert-inner::before{width:210px;height:140px;left:26px;top:22px;background:radial-gradient(circle,var(--d-soft) 0 28%, transparent 66%);opacity:.55}
+.design-acuarela .cert-inner::after{width:240px;height:150px;right:18px;bottom:18px;background:radial-gradient(circle,var(--d-soft) 0 24%, transparent 68%);opacity:.5}
+.design-acuarela .cert-title{font-size:46px}.design-acuarela .cert-name{font-size:54px;color:var(--d-accent)}
+
+.design-laureles .cert-bg{background:#fff}
+.design-laureles .cert-inner{border:2px solid var(--d-accent)}
+.design-laureles .cert-inner::before,.design-laureles .cert-inner::after{content:"❦";position:absolute;font-size:62px;color:color-mix(in srgb,var(--d-accent) 80%, white);opacity:.22}
+.design-laureles .cert-inner::before{left:42px;top:28px}.design-laureles .cert-inner::after{right:42px;bottom:18px}
+.design-laureles .cert-title{font-size:48px}.design-laureles .cert-name{font-size:58px;color:var(--d-accent)}
+
+.design-gradiente .cert-bg{background:linear-gradient(135deg,var(--d-soft),#fff 35%, #fff 65%, color-mix(in srgb,var(--d-soft) 80%, white))}
+.design-gradiente .cert-inner{border:2px solid var(--d-accent);background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.9))}
+.design-gradiente .cert-title{font-size:46px}.design-gradiente .cert-name{font-size:54px;color:var(--d-accent)}
+
+.design-infantil .cert-bg{background:linear-gradient(135deg,#fffefb,#fff)}
+.design-infantil .cert-inner{border:3px dashed var(--d-accent)}
+.design-infantil .cert-inner::before,.design-infantil .cert-inner::after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;background:var(--d-soft);opacity:.45}
+.design-infantil .cert-inner::before{left:24px;bottom:24px}.design-infantil .cert-inner::after{right:30px;top:30px}
+.design-infantil .cert-title{font-size:44px}.design-infantil .cert-name{font-size:52px;color:var(--d-accent)}
+
+.design-minimal .cert-bg{background:#fff}
+.design-minimal .cert-inner{border:1.5px solid #d8dce2;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,255,255,.94))}
+.design-minimal .cert-title{font-size:42px}.design-minimal .cert-name{font-size:50px;color:var(--d-accent)}
+
+.bulk-list{display:grid;gap:8px;max-height:240px;overflow:auto;border:1px solid var(--line);background:#fbfdff;border-radius:14px;padding:10px}
+.bulk-item{display:grid;grid-template-columns:1.4fr 1fr auto;gap:8px;align-items:center}
+.bulk-item strong{font-size:14px}
+.bulk-item span{font-size:13px;color:#475467}
+.toast{position:fixed;right:18px;bottom:18px;z-index:60;background:#101828;color:#fff;padding:12px 16px;border-radius:12px;box-shadow:0 10px 32px rgba(0,0,0,.18);display:none}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);padding:18px;align-items:center;justify-content:center;z-index:50}
+.modal{width:min(680px,100%);background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px}
+.modal h3{margin:0 0 10px}
+.sig-pad-wrap{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fbfdff}
+#signaturePad{width:100%;height:220px;background:#fff;border:1px dashed #c2d5e2;border-radius:10px;touch-action:none}
+footer{text-align:center;padding:16px;color:#7b8794;font-size:12px}
+.demo-note{background:#fff8dc;border:1px solid #f2df9c;border-radius:12px;padding:10px 12px;color:#6f5710;font-size:13px;margin-bottom:12px}
+.hidden{display:none!important}
+@media(max-width:1100px){main{grid-template-columns:1fr}.preview-wrap{position:static}}
+@media(max-width:700px){header{padding:14px}main{padding:12px}.grid2,.grid3{grid-template-columns:1fr}.cert-inner{inset:16px;padding:18px 14px 16px}.cert-logo{left:16px;top:14px;max-width:64px;max-height:48px}.cert-school{font-size:11px;margin-bottom:10px}.cert-title{font-size:29px!important;max-width:90%;width:90%;margin-bottom:10px}.cert-name{font-size:35px!important;max-width:90%;width:90%}.cert-recognition{font-size:18px;max-width:90%;margin-top:14px}.cert-message{font-size:14px;max-width:92%;margin-top:12px}.cert-meta{gap:8px;margin-top:12px}.cert-meta span{padding:5px 9px;font-size:11px}.cert-bottom{width:92%;gap:16px;padding-top:14px}.sign-slot{grid-template-rows:46px auto;min-height:74px}.sign-slot .sig-space{height:46px}.sign-slot .sig-img{max-height:40px;max-width:120px}.sign-slot .line{font-size:10px}}
+@media print{body{background:#fff}header,main>.panel:first-child,.preview-toolbar,.preview-actions,footer,.toast,.modal-backdrop{display:none!important}main{display:block;padding:0}.panel,.preview-shell,.preview-wrap{border:none!important;box-shadow:none!important;background:#fff!important;padding:0!important}.certificate{box-shadow:none!important;border-radius:0!important;page-break-after:always;max-width:none!important;width:100%!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">
+      <h1>MIS DIPLOMAS DOCENTES</h1>
+      <p>Generador de certificados, diplomas y reconocimientos</p>
+    </div>
+    <div class="head-actions">
+      <span id="demoBadge" class="badge">MODO DEMO</span>
+      <button id="clearDemoBtn" class="btn danger">Eliminar datos de prueba</button>
+      <button id="resetBtn" class="btn">Nuevo</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div id="demoNote" class="demo-note">Estos datos son ficticios para que pruebes la app sin cargar todo desde cero.</div>
+
+      <div class="section">
+        <div class="tabs">
+          <button class="tab active" data-tab="single">Individual</button>
+          <button class="tab" data-tab="bulk">Masivo</button>
+        </div>
+      </div>
+
+      <div id="singleTab">
+        <div class="field">
+          <label>Nombre del alumno/a</label>
+          <input id="studentName" value="Martina Suárez" />
+        </div>
+      </div>
+
+      <div id="bulkTab" class="hidden">
+        <div class="grid2">
+          <div class="field">
+            <label>Modo masivo</label>
+            <select id="bulkMode">
+              <option value="award">Reconocimiento / diploma</option>
+              <option value="completion">Certificado de finalización / promoción</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Reconocimiento base</label>
+            <select id="bulkDefaultRecognition">
+              <option>Gran progreso</option>
+              <option>Excelente compañero/a</option>
+              <option>Esfuerzo y perseverancia</option>
+              <option>Creatividad</option>
+              <option>Participación</option>
+              <option>Responsabilidad</option>
+              <option>Trabajo en equipo</option>
+              <option>Finalización de estudios</option>
+              <option>Promoción</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Lista masiva</label>
+          <textarea id="bulkInput" rows="8">Emma Collins | Gran progreso
+Lucas Bennett | Excelente compañero/a
+Olivia Parker | Creatividad
+Sophie Taylor | Esfuerzo y perseverancia
+Martina Suárez | Participación
+Benjamín Castro | Trabajo en equipo</textarea>
+          <div class="hint">Podés pegar <b>Nombre | Reconocimiento</b> o solamente <b>un nombre por línea</b>. Si elegís “Certificado de finalización / promoción”, no hace falta escribir reconocimiento al lado.</div>
+        </div>
+        <div class="row" style="margin-bottom:8px">
+          <button id="parseBulkBtn" class="btn primary">Detectar alumnos</button>
+          <span id="bulkSummary" class="hint"></span>
+        </div>
+        <div id="bulkList" class="bulk-list hidden"></div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="section">
+        <div class="section-head"><h2>Contenido</h2></div>
+        <div class="grid2">
+          <div class="field">
+            <label>Nombre de la institución</label>
+            <input id="schoolName" value="Colegio Horizonte Demo" />
+          </div>
+          <div class="field">
+            <label>Curso / grado</label>
+            <input id="courseName" value="6.º grado" />
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Tipo de documento</label>
+            <select id="documentType">
+              <option value="recognition">Diploma de reconocimiento</option>
+              <option value="certificate">Certificado</option>
+              <option value="completion">Certificado de finalización</option>
+              <option value="promotion">Certificado de promoción</option>
+              <option value="custom">Personalizado</option>
+            </select>
+          </div>
+          <div id="customDocWrap" class="field hidden">
+            <label>Título personalizado</label>
+            <input id="customDocTitle" placeholder="Escribí el título" />
+          </div>
+          <div id="singleRecognitionWrap" class="field">
+            <label>Reconocimiento</label>
+            <select id="recognition">
+              <option>Gran progreso</option>
+              <option>Excelente compañero/a</option>
+              <option>Esfuerzo y perseverancia</option>
+              <option>Creatividad</option>
+              <option>Participación</option>
+              <option>Responsabilidad</option>
+              <option>Curiosidad</option>
+              <option>Actitud positiva</option>
+              <option>Trabajo en equipo</option>
+              <option>Lectura</option>
+              <option>Matemática</option>
+              <option>Inglés</option>
+              <option>Finalización de estudios</option>
+              <option>Promoción</option>
+              <option value="Personalizado">Personalizado</option>
+            </select>
+          </div>
+        </div>
+        <div id="customRecognitionWrap" class="field hidden">
+          <label>Reconocimiento personalizado</label>
+          <input id="customRecognition" placeholder="Escribí el reconocimiento" />
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Fecha</label>
+            <input id="dateText" value="Diciembre 2026" />
+          </div>
+          <div class="field">
+            <label>Frase de introducción</label>
+            <input id="kickerText" value="Se otorga a" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Mensaje</label>
+          <textarea id="messageText">Por el compromiso, el crecimiento y la dedicación demostrados a lo largo de este año.</textarea>
+          <div class="hint">En modo masivo también podés usar el mismo mensaje para todos.</div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="section">
+        <div class="section-head"><h2>Diseño</h2></div>
+        <div class="grid2">
+          <div class="field">
+            <label>Estilo</label>
+            <select id="designStyle">
+              <option value="elegante">Elegante</option>
+              <option value="moderno">Moderno</option>
+              <option value="acuarela">Acuarela suave</option>
+              <option value="laureles">Clásico con laureles</option>
+              <option value="gradiente">Gradiente limpio</option>
+              <option value="infantil">Infantil elegante</option>
+              <option value="minimal">Minimalista</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Orientación</label>
+            <select id="orientation">
+              <option value="horizontal">Horizontal</option>
+              <option value="vertical">Vertical</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Tipografía</label>
+            <select id="fontFamily" class="hidden" aria-hidden="true">
+              <option value="playfair">Playfair Display</option>
+              <option value="dm">DM Serif Display</option>
+              <option value="cormorant">Cormorant Garamond</option>
+              <option value="lora">Lora</option>
+              <option value="merriweather">Merriweather</option>
+              <option value="montserrat">Montserrat</option>
+              <option value="raleway">Raleway</option>
+              <option value="poppins">Poppins</option>
+              <option value="quicksand">Quicksand</option>
+              <option value="manrope">Manrope</option>
+            </select>
+            <div id="fontDropdown" class="font-dropdown">
+              <button id="fontDropdownBtn" type="button" class="font-dropdown-btn" aria-haspopup="listbox" aria-expanded="false">
+                <span class="font-current">
+                  <span id="fontCurrentName" class="font-current-name">Playfair Display</span>
+                  <span id="fontCurrentSample" class="font-current-sample" style="font-family:'Playfair Display',serif">Playfair</span>
+                </span>
+                <span class="font-caret">▼</span>
+              </button>
+              <div id="fontDropdownMenu" class="font-dropdown-menu" role="listbox">
+                <button type="button" class="font-menu-option active" data-font="playfair" data-font-name="Playfair Display" data-font-css="'Playfair Display',serif"><span class="name">Playfair Display</span><span class="sample" style="font-family:'Playfair Display',serif">Playfair</span></button>
+                <button type="button" class="font-menu-option" data-font="dm" data-font-name="DM Serif Display" data-font-css="'DM Serif Display',serif"><span class="name">DM Serif Display</span><span class="sample" style="font-family:'DM Serif Display',serif">DM Serif</span></button>
+                <button type="button" class="font-menu-option" data-font="cormorant" data-font-name="Cormorant Garamond" data-font-css="'Cormorant Garamond',serif"><span class="name">Cormorant Garamond</span><span class="sample" style="font-family:'Cormorant Garamond',serif">Cormorant</span></button>
+                <button type="button" class="font-menu-option" data-font="lora" data-font-name="Lora" data-font-css="'Lora',serif"><span class="name">Lora</span><span class="sample" style="font-family:'Lora',serif">Lora</span></button>
+                <button type="button" class="font-menu-option" data-font="merriweather" data-font-name="Merriweather" data-font-css="'Merriweather',serif"><span class="name">Merriweather</span><span class="sample" style="font-family:'Merriweather',serif">Merriweather</span></button>
+                <button type="button" class="font-menu-option" data-font="montserrat" data-font-name="Montserrat" data-font-css="'Montserrat',sans-serif"><span class="name">Montserrat</span><span class="sample" style="font-family:'Montserrat',sans-serif">Montserrat</span></button>
+                <button type="button" class="font-menu-option" data-font="raleway" data-font-name="Raleway" data-font-css="'Raleway',sans-serif"><span class="name">Raleway</span><span class="sample" style="font-family:'Raleway',sans-serif">Raleway</span></button>
+                <button type="button" class="font-menu-option" data-font="poppins" data-font-name="Poppins" data-font-css="'Poppins',sans-serif"><span class="name">Poppins</span><span class="sample" style="font-family:'Poppins',sans-serif">Poppins</span></button>
+                <button type="button" class="font-menu-option" data-font="quicksand" data-font-name="Quicksand" data-font-css="'Quicksand',sans-serif"><span class="name">Quicksand</span><span class="sample" style="font-family:'Quicksand',sans-serif">Quicksand</span></button>
+                <button type="button" class="font-menu-option" data-font="manrope" data-font-name="Manrope" data-font-css="'Manrope',sans-serif"><span class="name">Manrope</span><span class="sample" style="font-family:'Manrope',sans-serif">Manrope</span></button>
+              </div>
+            </div>
+            <div id="fontStatus" class="hint" role="status" aria-live="polite">Las tipografías se cargan con conexión a internet.</div>
+          </div>
+          <div class="field">
+            <label>Paleta rápida</label>
+            <select id="palettePreset">
+              <option value="blue">Celeste</option>
+              <option value="gold">Dorado</option>
+              <option value="lavender">Lavanda</option>
+              <option value="green">Verde suave</option>
+              <option value="pink">Rosa pastel</option>
+              <option value="navy">Azul profundo</option>
+              <option value="orange">Durazno</option>
+              <option value="gray">Neutro</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Color principal</label>
+            <input id="accentColor" type="color" value="#4e9fc9" />
+          </div>
+          <div class="field">
+            <label>Color suave</label>
+            <input id="softColor" type="color" value="#e8f7ff" />
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Diseño propio</label>
+            <div class="row">
+              <button id="uploadCustomDesignBtn" class="btn small">Subir diseño</button>
+              <button id="removeCustomDesignBtn" class="btn small soft">Quitar diseño</button>
+            </div>
+            <div class="hint">Subí una imagen del diseño del diploma/certificado sin texto. La app usará ese fondo y completará nombre, texto y firmas acá.</div>
+          </div>
+          <div class="field">
+            <label>Usar diseño propio</label>
+            <select id="useCustomDesign">
+              <option value="no">No</option>
+              <option value="yes">Sí</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid3">
+          <div class="field">
+            <label>Tamaño del título</label>
+            <div class="range-row"><input id="titleSize" type="range" min="34" max="72" value="58" /><span id="titleSizeVal" class="range-value">58 px</span></div>
+          </div>
+          <div class="field">
+            <label>Tamaño del nombre</label>
+            <div class="range-row"><input id="nameSize" type="range" min="40" max="88" value="76" /><span id="nameSizeVal" class="range-value">76 px</span></div>
+          </div>
+          <div class="field">
+            <label>Tamaño del texto</label>
+            <div class="range-row"><input id="bodySize" type="range" min="16" max="30" value="24" /><span id="bodySizeVal" class="range-value">24 px</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="section">
+        <div class="section-head"><h2>Logo y firma</h2></div>
+        <div class="grid2">
+          <div class="field">
+            <label>Logo de la institución</label>
+            <input id="logoInput" type="file" accept="image/*" />
+          </div>
+
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Firma 1 — docente</label>
+            <input id="teacherName" value="Docente de prueba" />
+            <div class="row">
+              <button id="uploadSignature1Btn" class="btn small">Subir firma</button>
+              <button id="drawSignature1Btn" class="btn small">Firmar acá</button>
+              <button id="removeSignature1Btn" class="btn small soft">Quitar</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Firma 2 — dirección / coordinación</label>
+            <input id="secondSigner" placeholder="Director/a, coordinador/a..." />
+            <div class="row">
+              <button id="uploadSignature2Btn" class="btn small">Subir firma</button>
+              <button id="drawSignature2Btn" class="btn small">Firmar acá</button>
+              <button id="removeSignature2Btn" class="btn small soft">Quitar</button>
+            </div>
+          </div>
+        </div>
+        <div class="hint">Para cualquiera de las dos firmas podés subir una foto/escaneo sobre hoja blanca o hacer que la persona firme directamente en la app. El fondo blanco se elimina automáticamente.</div>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="section">
+        <div class="section-head"><h2>Plantillas</h2></div>
+        <div class="row" style="margin-bottom:10px">
+          <input id="templateName" placeholder="Ej.: Diplomas fin de año" style="flex:1;min-width:180px;border:1px solid #cdddea;border-radius:12px;padding:10px 12px" />
+          <button id="saveTemplateBtn" class="btn">Guardar plantilla</button>
+        </div>
+        <div id="savedTemplates" class="saved-templates"></div>
+      </div>
+    </section>
+
+    <section class="panel preview-wrap">
+      <div class="preview-toolbar">
+        <div>
+          <strong>Vista previa</strong>
+          <div id="previewCounter" class="hint">Diploma 1 de 1</div>
+        </div>
+        <div class="row">
+          <button id="prevBtn" class="btn small">← Anterior</button>
+          <button id="nextBtn" class="btn small">Siguiente →</button>
+        </div>
+      </div>
+      <div class="preview-shell">
+        <div class="cert-stage">
+          <div id="certificate" class="certificate design-elegante" style="--d-accent:#4e9fc9;--d-soft:#e8f7ff;">
+            <img id="customDesignBg" class="custom-design-bg hidden" alt="Diseño propio" />
+            <div class="cert-bg"></div>
+            <div id="certInner" class="cert-inner font-playfair">
+              <img id="certLogo" class="cert-logo hidden" alt="Logo" />
+              <div id="certSchool" class="cert-school">COLEGIO HORIZONTE DEMO</div>
+              <h2 id="certTitle" class="cert-title">Diploma de reconocimiento</h2>
+              <div id="certKicker" class="cert-kicker">Se otorga a</div>
+              <h3 id="certName" class="cert-name">Martina Suárez</h3>
+              <div id="certRecognition" class="cert-recognition">Gran progreso</div>
+              <p id="certMessage" class="cert-message">Por el compromiso, el crecimiento y la dedicación demostrados a lo largo de este año.</p>
+              <div id="certMeta" class="cert-meta">
+                <span id="certCourse">6.º grado</span>
+                <span id="certDate">Diciembre 2026</span>
+              </div>
+              <div class="cert-bottom">
+                <div class="sign-slot">
+                  <div class="sig-space"><img id="signatureImg1" class="sig-img hidden" alt="Firma docente" /></div>
+                  <div id="sign1" class="line">Docente de prueba</div>
+                </div>
+                <div class="sign-slot">
+                  <div class="sig-space"><img id="signatureImg2" class="sig-img hidden" alt="Firma dirección" /></div>
+                  <div class="line" id="sign2">Firma</div>
+                </div>
+              </div>
+</div>
+          </div>
+        </div>
+      </div>
+      <div class="separator"></div>
+      <div class="preview-actions row">
+        <button id="downloadPngBtn" class="btn primary">Descargar como imagen</button>
+        <button id="printCurrentBtn" class="btn">Descargar PDF</button>
+        <button id="printAllBtn" class="btn">Descargar todos en PDF</button>
+      </div>
+      <div class="hint" style="margin-top:10px">El PDF se descarga directamente. En modo masivo, todos los certificados quedan dentro de un único archivo, uno por página.</div>
+    </section>
+  </main>
+
+  <footer>Creado por HeyMissKite</footer>
+</div>
+
+<input id="hiddenSignatureInput1" type="file" accept="image/*" class="hidden" />
+<input id="hiddenSignatureInput2" type="file" accept="image/*" class="hidden" />
+<input id="hiddenCustomDesignInput" type="file" accept="image/*" class="hidden" />
+
+<div id="modalBackdrop" class="modal-backdrop">
+  <div class="modal">
+    <h3 id="modalTitle">Confirmar</h3>
+    <div id="modalContent"></div>
+    <div class="row" style="justify-content:flex-end;margin-top:14px">
+      <button id="modalCancel" class="btn">Cancelar</button>
+      <button id="modalConfirm" class="btn primary">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+(() => {
+  const STORAGE_KEY='heymisskite_mis_diplomas_v2';
+  const TEMPLATE_KEY='heymisskite_mis_diplomas_v2_templates';
+  const DEMO_REMOVED_KEY='heymisskite_mis_diplomas_v2_demo_removed';
+  const $=id=>document.getElementById(id);
+  const qsa=sel=>Array.from(document.querySelectorAll(sel));
+
+  let mode='single';
+  let currentIndex=0;
+  let bulkData=[];
+  let logoData='';
+  let signatureData='';
+  let signatureData2='';
+  let customDesignData='';
+  let modalAction=null;
+  let signPadCtx=null, signPadDrawing=false, lastPt=null;
+
+  const DEMO_STATE={
+    schoolName:'Colegio Horizonte Demo',
+    courseName:'6.º grado',
+    documentType:'recognition',
+    customDocTitle:'',
+    recognition:'Gran progreso',
+    customRecognition:'',
+    kickerText:'Se otorga a',
+    dateText:'Diciembre 2026',
+    messageText:'Por el compromiso, el crecimiento y la dedicación demostrados a lo largo de este año.',
+    teacherName:'Docente de prueba',
+    secondSigner:'',
+    studentName:'Martina Suárez',
+    bulkInput:`Emma Collins | Gran progreso\nLucas Bennett | Excelente compañero/a\nOlivia Parker | Creatividad\nSophie Taylor | Esfuerzo y perseverancia\nMartina Suárez | Participación\nBenjamín Castro | Trabajo en equipo`,
+    bulkMode:'award',
+    bulkDefaultRecognition:'Gran progreso',
+    designStyle:'elegante',
+    orientation:'horizontal',
+    fontFamily:'playfair',
+    titleSize:'58',
+    nameSize:'76',
+    bodySize:'24',
+    palettePreset:'blue',
+    accentColor:'#4e9fc9',
+    softColor:'#e8f7ff',
+    useCustomDesign:'no',
+    logoData:'',
+    signatureData:'',
+    signatureData2:'',
+    customDesignData:''
+  };
+
+  const paletteMap={
+    blue:['#4e9fc9','#e8f7ff'], gold:['#b38a31','#faf2dd'], lavender:['#8f7ac6','#f2ecff'],
+    green:['#5c9e7a','#eaf8ef'], pink:['#c97aa7','#fff0f8'], navy:['#355c9a','#e9f0ff'],
+    orange:['#d98a4d','#fff2e7'], gray:['#525866','#f4f4f5']
+  };
+
+  function showToast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>t.style.display='none',2300)}
+
+  function storageGet(key){ try{return localStorage.getItem(key)}catch(e){return null} }
+  function storageSet(key,value){ try{localStorage.setItem(key,value);return true}catch(e){return false} }
+  function storageRemove(key){ try{localStorage.removeItem(key);return true}catch(e){return false} }
+
+  function getSavedTemplates(){try{return JSON.parse(storageGet(TEMPLATE_KEY)||'[]')}catch(e){return []}}
+  function setSavedTemplates(arr){const ok=storageSet(TEMPLATE_KEY,JSON.stringify(arr||[]));if(ok)renderTemplates();else showToast('No se pudo guardar la plantilla. Revisá el almacenamiento del navegador.');return ok;}
+  function readState(){try{return JSON.parse(storageGet(STORAGE_KEY)||'null')}catch(e){return null}}
+  let storageWarningShown=false;
+  function saveState(){const ok=storageSet(STORAGE_KEY,JSON.stringify(collectState()));if(!ok && !storageWarningShown){storageWarningShown=true;showToast('No se pudieron guardar los cambios: liberá espacio o usá imágenes más livianas.');}else if(ok)storageWarningShown=false;}
+
+  function collectState(){
+    return {
+      schoolName:$('schoolName').value, courseName:$('courseName').value,
+      documentType:$('documentType').value, customDocTitle:$('customDocTitle').value,
+      recognition:$('recognition').value, customRecognition:$('customRecognition').value,
+      kickerText:$('kickerText').value, dateText:$('dateText').value,
+      messageText:$('messageText').value, teacherName:$('teacherName').value,
+      secondSigner:$('secondSigner').value, studentName:$('studentName').value,
+      bulkInput:$('bulkInput').value, bulkMode:$('bulkMode').value,
+      bulkDefaultRecognition:$('bulkDefaultRecognition').value,
+      designStyle:$('designStyle').value, orientation:$('orientation').value,
+      fontFamily:$('fontFamily').value, titleSize:$('titleSize').value, nameSize:$('nameSize').value, bodySize:$('bodySize').value, palettePreset:$('palettePreset').value,
+      accentColor:$('accentColor').value, softColor:$('softColor').value,
+      useCustomDesign:$('useCustomDesign').value, logoData, signatureData, signatureData2, customDesignData
+    }
+  }
+
+  function applyState(s){
+    const st={...DEMO_STATE,...(s||{})};
+    const map=['schoolName','courseName','documentType','customDocTitle','recognition','customRecognition','kickerText','dateText','messageText','teacherName','secondSigner','studentName','bulkInput','bulkMode','bulkDefaultRecognition','designStyle','orientation','fontFamily','titleSize','nameSize','bodySize','palettePreset','accentColor','softColor','useCustomDesign'];
+    map.forEach(id=>{if($(id) && st[id]!=null) $(id).value=st[id]});
+    $('useCustomDesign').value=st.useCustomDesign||'no';
+    logoData=st.logoData||''; signatureData=st.signatureData||''; signatureData2=st.signatureData2||''; customDesignData=st.customDesignData||'';
+    updateDocTypeUI(); updateRecognitionUI(); parseBulk(false); render();
+  }
+
+  function getCurrentDocumentTitle(){
+    const v=$('documentType').value;
+    if(v==='custom') return $('customDocTitle').value.trim()||'Diploma';
+    const map={recognition:'Diploma de reconocimiento',certificate:'Certificado',completion:'Certificado de finalización',promotion:'Certificado de promoción'};
+    return map[v]||'Diploma';
+  }
+
+  function currentRecognition(){
+    if(mode==='bulk') return bulkData[currentIndex]?.recognition || '';
+    if(hideRecognitionForCurrent()) return '';
+    return $('recognition').value==='Personalizado' ? ($('customRecognition').value.trim()||'Reconocimiento') : $('recognition').value;
+  }
+  function currentName(){return mode==='bulk' ? (bulkData[currentIndex]?.name || 'Alumno/a') : ($('studentName').value.trim() || 'Alumno/a')}
+  function hideRecognitionForCurrent(){
+    const dt=$('documentType').value;
+    if(mode==='bulk' && $('bulkMode').value==='completion') return true;
+    return dt==='completion' || dt==='promotion';
+  }
+
+  function updateDocTypeUI(){
+    const custom=$('documentType').value==='custom';
+    $('customDocWrap').classList.toggle('hidden',!custom);
+    const hideRec=hideRecognitionForCurrent();
+    $('singleRecognitionWrap').classList.toggle('hidden', mode!=='single' || hideRec);
+    if(hideRec) $('customRecognitionWrap').classList.add('hidden');
+  }
+
+  function updateRecognitionUI(){
+    const show=$('recognition').value==='Personalizado' && !hideRecognitionForCurrent() && mode==='single';
+    $('customRecognitionWrap').classList.toggle('hidden',!show);
+  }
+
+  function parseBulk(showMsg=true){
+    const lines=$('bulkInput').value.replace(/\r/g,'').split('\n').map(x=>x.trim()).filter(Boolean);
+    const modeBulk=$('bulkMode').value;
+    const def=$('bulkDefaultRecognition').value;
+    const seen=new Set(); bulkData=[];
+    lines.forEach(line=>{
+      const parts=line.split('|');
+      const name=(parts[0]||'').trim().replace(/\t+/g,' ');
+      let rec='';
+      if(modeBulk==='completion') rec='';
+      else rec=(parts[1]||def).trim() || def;
+      const key=name.toLowerCase();
+      if(name && !seen.has(key)){seen.add(key);bulkData.push({name,recognition:rec})}
+    });
+    $('bulkSummary').textContent=bulkData.length ? `Se detectaron ${bulkData.length} diplomas.` : 'No encontré alumnos para generar.';
+    $('bulkList').innerHTML='';
+    $('bulkList').classList.toggle('hidden',!bulkData.length);
+    bulkData.forEach((item,i)=>{
+      const div=document.createElement('div'); div.className='bulk-item';
+      div.innerHTML=`<strong>${escapeHtml(item.name)}</strong><span>${escapeHtml(item.recognition || 'Finalización / promoción')}</span><button class="btn small" data-preview="${i}">Ver</button>`;
+      $('bulkList').appendChild(div);
+    });
+    currentIndex=Math.min(currentIndex,Math.max(0,bulkData.length-1));
+    if(showMsg) showToast(bulkData.length?`${bulkData.length} diplomas detectados`:'No encontré alumnos');
+    render();
+  }
+
+  function applyPalettePreset(){
+    const key=$('palettePreset').value; const p=paletteMap[key];
+    if(!p) return; $('accentColor').value=p[0]; $('softColor').value=p[1]; render();
+  }
+
+  const fontMeta={
+    playfair:{name:'Playfair Display',css:"'Playfair Display',Georgia, serif",sample:'Playfair'},
+    dm:{name:'DM Serif Display',css:"'DM Serif Display','Times New Roman', serif",sample:'DM Serif'},
+    cormorant:{name:'Cormorant Garamond',css:"'Cormorant Garamond',Baskerville, Georgia, serif",sample:'Cormorant'},
+    lora:{name:'Lora',css:"'Lora','Palatino Linotype', Georgia, serif",sample:'Lora'},
+    merriweather:{name:'Merriweather',css:"'Merriweather',Cambria, Georgia, serif",sample:'Merriweather'},
+    montserrat:{name:'Montserrat',css:"'Montserrat',Arial, sans-serif",sample:'Montserrat'},
+    raleway:{name:'Raleway',css:"'Raleway','Helvetica Neue', Helvetica, Arial, sans-serif",sample:'Raleway'},
+    poppins:{name:'Poppins',css:"'Poppins','Trebuchet MS', Arial, sans-serif",sample:'Poppins'},
+    quicksand:{name:'Quicksand',css:"'Quicksand','Arial Rounded MT Bold', 'Trebuchet MS', sans-serif",sample:'Quicksand'},
+    manrope:{name:'Manrope',css:"'Manrope',Verdana, Arial, sans-serif",sample:'Manrope'}
+  };
+
+  function syncFontDropdown(){
+    const key=$('fontFamily').value;
+    const meta=fontMeta[key]||fontMeta.playfair;
+    $('fontCurrentName').textContent=meta.name;
+    $('fontCurrentSample').textContent=meta.sample;
+    $('fontCurrentSample').style.fontFamily=meta.css;
+    qsa('.font-menu-option').forEach(btn=>btn.classList.toggle('active',btn.dataset.font===key));
+  }
+
+  function updateFontStatus(){
+    const selected=fontMeta[$('fontFamily').value]||fontMeta.playfair;
+    const status=$('fontStatus');
+    if(!status) return;
+    const loaded=Array.from(document.fonts||[]).some(face=>
+      face.family.replace(/["']/g,'').trim().toLowerCase()===selected.name.toLowerCase() && face.status==='loaded');
+    status.textContent=loaded?'Tipografía cargada. Se aplicará también en PNG y PDF.':'Las tipografías requieren conexión a Google Fonts. Si no cargan, se usará una fuente alternativa.';
+    status.style.color=loaded?'#277052':'#97561e';
+  }
+
+  async function loadSelectedFont(){
+    const meta=fontMeta[$('fontFamily').value]||fontMeta.playfair;
+    try{
+      if(document.fonts?.load){
+        await Promise.allSettled([
+          document.fonts.load(`700 54px "${meta.name}"`),
+          document.fonts.load('400 20px "Inter"')
+        ]);
+      }
+    }catch(e){console.warn('Fuente no disponible:',e)}
+    updateFontStatus();
+    // Web fonts can change text width after first render.
+    requestAnimationFrame(()=>{applyPreviewScale();autoFitCertificateText()});
+  }
+
+  function preloadFonts(){
+    loadSelectedFont();
+    if(!document.fonts?.load) return;
+    const loads=Object.values(fontMeta).map(meta=>document.fonts.load(`400 22px "${meta.name}"`));
+    Promise.allSettled(loads).then(()=>{syncFontDropdown();updateFontStatus();});
+  }
+
+  function fitTextToWidth(el, maxSize, minSize){
+    if(!el) return maxSize;
+    let size = maxSize;
+    el.style.fontSize = size + 'px';
+    let guard = 0;
+    while(el.scrollWidth > el.clientWidth + 1 && size > minSize && guard < 80){
+      size -= 1;
+      el.style.fontSize = size + 'px';
+      guard += 1;
+    }
+    return size;
+  }
+
+  function applyPreviewScale(){
+    const cert=$('certificate');
+    const inner=$('certInner');
+    if(!cert||!inner) return;
+    const vertical=$('orientation').value==='vertical';
+    const baseW=vertical?794:1123;
+    const baseH=vertical?1123:794;
+    const inset=26;
+    const scale=cert.clientWidth/baseW;
+    inner.style.inset='auto';
+    inner.style.left=(inset*scale)+'px';
+    inner.style.top=(inset*scale)+'px';
+    inner.style.width=(baseW-inset*2)+'px';
+    inner.style.height=(baseH-inset*2)+'px';
+    inner.style.transformOrigin='top left';
+    inner.style.transform=`scale(${scale})`;
+  }
+
+  function autoFitCertificateText(){
+    const inner = $('certInner');
+    const titleEl = $('certTitle');
+    const nameEl = $('certName');
+    const recEl = $('certRecognition');
+    const msgEl = $('certMessage');
+    const metaEl = $('certMeta');
+    const bottomEl = document.querySelector('.cert-bottom');
+    const vertical = $('orientation').value==='vertical';
+
+    const requestedTitle = parseInt($('titleSize').value || '58',10);
+    const requestedName = parseInt($('nameSize').value || '76',10);
+    const requestedBody = parseInt($('bodySize').value || '24',10);
+
+    // The sliders are authoritative. Start from the exact values selected by the user.
+    titleEl.style.fontSize = requestedTitle + 'px';
+    nameEl.style.fontSize = requestedName + 'px';
+    msgEl.style.fontSize = requestedBody + 'px';
+    if(!recEl.classList.contains('hidden')) recEl.style.fontSize = Math.max(20,Math.min(30,requestedBody+3)) + 'px';
+
+    // Normal rhythm. If the overall composition is too tall, compact whitespace first,
+    // instead of silently undoing the user's font-size choice.
+    const rhythms = [
+      {title:26,kicker:22,rec:28,msg:18,meta:24,bottom:18},
+      {title:22,kicker:18,rec:23,msg:15,meta:19,bottom:14},
+      {title:18,kicker:14,rec:18,msg:12,meta:15,bottom:10},
+      {title:14,kicker:11,rec:14,msg:9,meta:11,bottom:8}
+    ];
+
+    const applyRhythm=r=>{
+      titleEl.style.marginBottom=r.title+'px';
+      $('certKicker').style.marginBottom=r.kicker+'px';
+      nameEl.style.paddingBottom='3px';
+      recEl.style.marginTop=r.rec+'px';
+      msgEl.style.marginTop=r.msg+'px';
+      metaEl.style.marginTop=r.meta+'px';
+      bottomEl.style.marginTop=r.bottom+'px';
+    };
+
+    for(const rhythm of rhythms){
+      applyRhythm(rhythm);
+      if(inner.scrollHeight<=inner.clientHeight+1) break;
+    }
+
+    // Safety only for genuinely extreme content. Normal text keeps the exact slider value.
+    // We reduce the variable-length message first, then recognition; title/name are protected.
+    if(inner.scrollHeight>inner.clientHeight+1){
+      let bodySize=requestedBody;
+      while(inner.scrollHeight>inner.clientHeight+1 && bodySize>14){
+        bodySize--;
+        msgEl.style.fontSize=bodySize+'px';
+      }
+    }
+    if(inner.scrollHeight>inner.clientHeight+1 && !recEl.classList.contains('hidden')){
+      let recSize=parseInt(recEl.style.fontSize||'24',10);
+      while(inner.scrollHeight>inner.clientHeight+1 && recSize>16){
+        recSize--;
+        recEl.style.fontSize=recSize+'px';
+      }
+    }
+
+    // In vertical mode allow a little more text width so requested sizes remain visible.
+    titleEl.style.maxWidth=vertical?'86%':'82%'; titleEl.style.width=vertical?'86%':'82%';
+    nameEl.style.maxWidth=vertical?'84%':'76%'; nameEl.style.width=vertical?'84%':'76%';
+    msgEl.style.maxWidth=vertical?'82%':'74%';
+  }
+
+  function render(){
+    const cert=$('certificate'); const inner=$('certInner');
+    const customOn = $('useCustomDesign').value==='yes' && !!customDesignData;
+    cert.className=`certificate design-${$('designStyle').value} ${$('orientation').value==='vertical'?'vertical':''} ${customOn?'custom-design':''}`.trim();
+    cert.style.setProperty('--d-accent',$('accentColor').value); cert.style.setProperty('--d-soft',$('softColor').value);
+    inner.className=`cert-inner font-${$('fontFamily').value}`;
+    if(customOn){ $('customDesignBg').src=customDesignData; $('customDesignBg').classList.remove('hidden'); }
+    else { $('customDesignBg').classList.add('hidden'); }
+    syncFontDropdown();
+    updateFontStatus();
+    $('titleSizeVal').textContent=$('titleSize').value+' px';
+    $('nameSizeVal').textContent=$('nameSize').value+' px';
+    $('bodySizeVal').textContent=$('bodySize').value+' px';
+    $('certSchool').textContent=($('schoolName').value||'Institución').toUpperCase();
+    $('certTitle').textContent=getCurrentDocumentTitle();
+    $('certTitle').style.fontSize=$('titleSize').value+'px';
+    $('certKicker').textContent=$('kickerText').value || 'Se otorga a';
+    $('certName').textContent=currentName();
+    $('certName').style.fontSize=$('nameSize').value+'px';
+    const rec=currentRecognition();
+    $('certRecognition').textContent=rec;
+    $('certRecognition').classList.toggle('hidden',!rec);
+    $('certMessage').textContent=$('messageText').value||'';
+    $('certMessage').style.fontSize=$('bodySize').value+'px';
+    $('certTitle').style.marginBottom='26px';
+    $('certKicker').style.marginBottom='22px';
+    $('certName').style.paddingBottom='3px';
+    $('certMessage').style.marginTop='18px';
+    $('certRecognition').style.marginTop='28px';
+    $('certMeta').style.marginTop='24px';
+    document.querySelector('.cert-bottom').style.marginTop='18px';
+    $('certCourse').textContent=$('courseName').value||'';
+    $('certDate').textContent=$('dateText').value||'';
+    $('sign1').textContent=$('teacherName').value||'Firma';
+    $('sign2').textContent=$('secondSigner').value||'Firma';
+    if(logoData){$('certLogo').src=logoData; $('certLogo').classList.remove('hidden')} else $('certLogo').classList.add('hidden');
+    if(signatureData){$('signatureImg1').src=signatureData; $('signatureImg1').classList.remove('hidden')} else $('signatureImg1').classList.add('hidden');
+    if(signatureData2){$('signatureImg2').src=signatureData2; $('signatureImg2').classList.remove('hidden')} else $('signatureImg2').classList.add('hidden');
+    requestAnimationFrame(()=>{applyPreviewScale();autoFitCertificateText();});
+    const total=mode==='bulk'?Math.max(bulkData.length,1):1;
+    $('previewCounter').textContent=`Diploma ${Math.min(currentIndex+1,total)} de ${total}`;
+    $('prevBtn').disabled=currentIndex<=0; $('nextBtn').disabled=currentIndex>=total-1;
+    updateDocTypeUI(); updateRecognitionUI(); saveState();
+  }
+
+  function switchTab(newMode){mode=newMode; currentIndex=0; qsa('.tab').forEach(btn=>btn.classList.toggle('active',btn.dataset.tab===newMode)); $('singleTab').classList.toggle('hidden',newMode!=='single'); $('bulkTab').classList.toggle('hidden',newMode!=='bulk'); updateDocTypeUI(); updateRecognitionUI(); if(newMode==='bulk') parseBulk(false); render();}
+
+  function renderTemplates(){
+    const arr=getSavedTemplates(); $('savedTemplates').innerHTML='';
+    arr.forEach((t,i)=>{
+      const wrap=document.createElement('div'); wrap.className='chip';
+      wrap.innerHTML=`<button class="btn small" data-load-template="${i}">${escapeHtml(t.name)}</button> <button class="btn small" data-delete-template="${i}">×</button>`;
+      $('savedTemplates').appendChild(wrap);
+    })
+  }
+
+  function saveTemplate(){
+    const name=$('templateName').value.trim(); if(!name){showToast('Escribí un nombre para la plantilla'); return;}
+    const state=collectState(); delete state.studentName; delete state.bulkInput;
+    const arr=getSavedTemplates(); arr.push({name,data:state}); if(setSavedTemplates(arr)){$('templateName').value=''; showToast('Plantilla guardada');}
+  }
+  function loadTemplate(i){const t=getSavedTemplates()[i]; if(!t) return; applyState({...collectState(),...t.data}); showToast('Plantilla cargada');}
+  function deleteTemplate(i){const arr=getSavedTemplates(); arr.splice(i,1); if(setSavedTemplates(arr))showToast('Plantilla eliminada');}
+
+  function resetCurrent(){
+    const blank={...DEMO_STATE,schoolName:'',courseName:'',dateText:'',messageText:'',teacherName:'',secondSigner:'',studentName:'',bulkInput:'',logoData:'',signatureData:'',signatureData2:''};
+    applyState(blank); showToast('Nuevo diploma listo');
+  }
+
+  function clearDemo(){storageSet(DEMO_REMOVED_KEY,'1'); storageRemove(STORAGE_KEY); $('demoBadge').classList.add('hidden'); $('clearDemoBtn').classList.add('hidden'); $('demoNote').classList.add('hidden'); resetCurrent(); showToast('Datos de prueba eliminados');}
+
+  function openModal(title, html, onConfirm, confirmText='Aceptar'){
+    $('modalTitle').textContent=title; $('modalContent').innerHTML=html; $('modalConfirm').textContent=confirmText; modalAction=onConfirm; $('modalBackdrop').style.display='flex';
+  }
+  function closeModal(){$('modalBackdrop').style.display='none'; $('modalContent').innerHTML=''; modalAction=null}
+
+  function removeWhiteBackground(img){
+    const canvas=document.createElement('canvas'); const ctx=canvas.getContext('2d');
+    canvas.width=img.naturalWidth; canvas.height=img.naturalHeight; ctx.drawImage(img,0,0);
+    const imageData=ctx.getImageData(0,0,canvas.width,canvas.height); const d=imageData.data;
+    for(let i=0;i<d.length;i+=4){
+      const r=d[i],g=d[i+1],b=d[i+2];
+      if(r>235 && g>235 && b>235){d[i+3]=0;} else if(r>210&&g>210&&b>210){d[i+3]=Math.max(0,255-((r+g+b)/3-210)*6)}
+    }
+    ctx.putImageData(imageData,0,0);
+    return canvas.toDataURL('image/png');
+  }
+
+  function loadSignatureFile(file, target=1){
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        const cleaned=removeWhiteBackground(img);
+        if(target===2) signatureData2=cleaned; else signatureData=cleaned;
+        render();
+        showToast(target===2 ? 'Firma 2 cargada' : 'Firma 1 cargada');
+      };
+      img.src=reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function setupSignaturePad(){
+    const canvas=$('signaturePad'); if(!canvas) return;
+    const rect=canvas.getBoundingClientRect(); const ratio=window.devicePixelRatio||1; canvas.width=rect.width*ratio; canvas.height=rect.height*ratio; signPadCtx=canvas.getContext('2d'); signPadCtx.scale(ratio,ratio); signPadCtx.lineWidth=2.4; signPadCtx.lineCap='round'; signPadCtx.strokeStyle='#111'; signPadCtx.fillStyle='#fff'; signPadCtx.fillRect(0,0,rect.width,rect.height);
+    function pos(evt){const r=canvas.getBoundingClientRect(); const p=evt.touches?evt.touches[0]:evt; return {x:p.clientX-r.left,y:p.clientY-r.top};}
+    function start(e){signPadDrawing=true; lastPt=pos(e)}
+    function move(e){if(!signPadDrawing) return; e.preventDefault(); const pt=pos(e); signPadCtx.beginPath(); signPadCtx.moveTo(lastPt.x,lastPt.y); signPadCtx.lineTo(pt.x,pt.y); signPadCtx.stroke(); lastPt=pt;}
+    function end(){signPadDrawing=false; lastPt=null}
+    canvas.onmousedown=start; canvas.onmousemove=move; window.onmouseup=end;
+    canvas.ontouchstart=start; canvas.ontouchmove=move; canvas.ontouchend=end;
+  }
+
+
+  function clearSignaturePad(){
+    const canvas=$('signaturePad'); if(!canvas || !signPadCtx) return;
+    const rect=canvas.getBoundingClientRect(); signPadCtx.clearRect(0,0,rect.width,rect.height); signPadCtx.fillStyle='#fff'; signPadCtx.fillRect(0,0,rect.width,rect.height);
+  }
+
+  function transparentCanvasData(canvas){
+    const temp=document.createElement('canvas'); temp.width=canvas.width; temp.height=canvas.height;
+    const ctx=temp.getContext('2d'); ctx.drawImage(canvas,0,0);
+    const data=ctx.getImageData(0,0,temp.width,temp.height); const d=data.data;
+    for(let i=0;i<d.length;i+=4){ const r=d[i],g=d[i+1],b=d[i+2]; if(r>245 && g>245 && b>245) d[i+3]=0; }
+    ctx.putImageData(data,0,0); return temp.toDataURL('image/png');
+  }
+
+  function openSignaturePad(target=1){
+    openModal(target===2 ? 'Firma 2 — firmar acá' : 'Firma 1 — firmar acá', `
+      <div class="sig-pad-wrap">
+        <canvas id="signaturePad"></canvas>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button id="clearPadBtn" class="btn">Limpiar</button>
+        <span class="hint">Firmá con el dedo o mouse. Al guardar, la firma se coloca sobre su línea correspondiente.</span>
+      </div>
+    `, ()=>{
+      const canvas=$('signaturePad');
+      const data=transparentCanvasData(canvas);
+      if(target===2) signatureData2=data; else signatureData=data;
+      render();
+      showToast(target===2 ? 'Firma 2 guardada' : 'Firma 1 guardada');
+    }, 'Guardar firma');
+    setTimeout(()=>{const btn=$('clearPadBtn');const pad=$('signaturePad');if(!btn||!pad)return;setupSignaturePad();btn.onclick=()=>clearSignaturePad();},50);
+  }
+
+  function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+  function escapeXml(s){return String(s).replace(/[<>&'\"]/g,c=>({ '<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c]))}
+
+  function wrapLines(text, approxChars){
+    const words=String(text).split(/\s+/).filter(Boolean); let line=''; const lines=[];
+    words.forEach(word=>{const test=(line+' '+word).trim(); if(test.length>approxChars && line){lines.push(line); line=word;} else line=test;}); if(line) lines.push(line); return lines;
+  }
+
+
+  function wrapLinesMax(text, approxChars, maxLines=2){
+    const lines = wrapLines(text, approxChars);
+    if(lines.length <= maxLines) return lines;
+    const kept = lines.slice(0, maxLines);
+    kept[maxLines-1] = kept[maxLines-1] + '…';
+    return kept;
+  }
+
+  function svgTextBlock(lines, cx, y, lineH, fontFamily, fontSize, weight, color){
+    return `<text x="${cx}" y="${y}" text-anchor="middle" font-family="${fontFamily}" font-size="${fontSize}" font-weight="${weight}" fill="${color}">`+
+      lines.map((ln,i)=>`<tspan x="${cx}" dy="${i===0?0:lineH}">${escapeXml(ln)}</tspan>`).join('')+
+      `</text>`;
+  }
+
+  function currentDocData(indexOverride=null){
+    const old=currentIndex; if(indexOverride!=null) currentIndex=indexOverride;
+    const data={
+      school:($('schoolName').value||'Institución').toUpperCase(),
+      title:getCurrentDocumentTitle(),
+      kicker:$('kickerText').value||'Se otorga a',
+      name:currentName(), recognition:currentRecognition(), message:$('messageText').value||'',
+      course:$('courseName').value||'', date:$('dateText').value||'',
+      signer1:$('teacherName').value||'Firma', signer2:$('secondSigner').value||'Firma',
+      accent:$('accentColor').value, soft:$('softColor').value,
+      orientation:$('orientation').value, style:$('designStyle').value,
+      useCustomDesign:$('useCustomDesign').value==='yes' && !!customDesignData
+    };
+    if(indexOverride!=null) currentIndex=old;
+    return data;
+  }
+
+  function svgMeasureContext(){
+    if(!window.__certMeasureCanvas){ window.__certMeasureCanvas=document.createElement('canvas'); }
+    return window.__certMeasureCanvas.getContext('2d');
+  }
+
+  function svgFontString(size, family, weight='700'){
+    return `${weight} ${size}px ${family}`;
+  }
+
+  function measureSvgText(text, size, family, weight='700'){
+    const ctx=svgMeasureContext();
+    ctx.font=svgFontString(size,family,weight);
+    return ctx.measureText(text||'').width;
+  }
+
+  function wrapMeasuredSvg(text, maxWidth, size, family, weight='700'){
+    const clean=(text||'').trim();
+    if(!clean) return [];
+    const words=clean.split(/\s+/);
+    const lines=[];
+    let line='';
+    for(const word of words){
+      const test=line?`${line} ${word}`:word;
+      if(!line || measureSvgText(test,size,family,weight)<=maxWidth){
+        line=test;
+      }else{
+        lines.push(line);
+        line=word;
+      }
+    }
+    if(line) lines.push(line);
+    return lines;
+  }
+
+  function fitSvgBlock(text, maxWidth, initialSize, minSize, family, weight='700', maxLines=2){
+    let size=initialSize;
+    let lines=[];
+    while(size>=minSize){
+      lines=wrapMeasuredSvg(text,maxWidth,size,family,weight);
+      if(lines.length<=maxLines && lines.every(line=>measureSvgText(line,size,family,weight)<=maxWidth+1)) break;
+      size-=1;
+    }
+    if(!lines.length) lines=[''];
+    return {size,lines:lines.slice(0,maxLines)};
+  }
+
+  function svgMultiline(lines, x, firstBaseline, lineHeight, family, size, weight, color, extra=''){
+    return `<text x="${x}" y="${firstBaseline}" text-anchor="middle" font-family="${family}" font-size="${size}" font-weight="${weight}" fill="${color}" ${extra}>`+
+      lines.map((line,i)=>`<tspan x="${x}" dy="${i===0?0:lineHeight}">${escapeXml(line)}</tspan>`).join('')+
+      `</text>`;
+  }
+
+  // The exported background follows the selected visual style.
+  // This keeps the print/PDF background aligned with the chosen preview theme.
+  function exportBackground(d,w,h){
+    const a=d.accent, b=d.soft, pad=w*.035;
+    const primary=`<rect x="${pad}" y="${h*.05}" width="${w-2*pad}" height="${h*.90}" fill="none" stroke="${a}" stroke-width="3"/>`;
+    const fine=`<rect x="${pad+12}" y="${h*.05+12}" width="${w-2*pad-24}" height="${h*.90-24}" fill="none" stroke="${a}" stroke-width="1.3"/>`;
+    const rings=`<circle cx="0" cy="0" r="${Math.min(w,h)*.29}" fill="${b}" opacity=".80"/><circle cx="${w}" cy="${h}" r="${Math.min(w,h)*.29}" fill="${b}" opacity=".80"/>`;
+    if(d.useCustomDesign) return `<image href="${customDesignData}" x="0" y="0" width="${w}" height="${h}" preserveAspectRatio="xMidYMid slice"/>`;
+    switch(d.style){
+      case 'elegante': return `<rect width="${w}" height="${h}" fill="#fffdf8"/>${rings}${primary}${fine}`;
+      case 'moderno': return `<rect width="${w}" height="${h}" fill="#ffffff"/><circle cx="${w*.08}" cy="${h*.07}" r="${w*.15}" fill="${b}" opacity=".82"/><circle cx="${w*.92}" cy="${h*.94}" r="${w*.16}" fill="${b}" opacity=".82"/>${primary}`;
+      case 'acuarela': return `<defs><radialGradient id="washA"><stop offset="0" stop-color="${b}" stop-opacity=".93"/><stop offset="1" stop-color="${b}" stop-opacity="0"/></radialGradient></defs><rect width="${w}" height="${h}" fill="#fff"/><ellipse cx="${w*.10}" cy="${h*.1}" rx="${w*.20}" ry="${h*.25}" fill="url(#washA)"/><ellipse cx="${w*.92}" cy="${h*.94}" rx="${w*.20}" ry="${h*.24}" fill="url(#washA)"/><rect x="${pad}" y="${h*.05}" width="${w-2*pad}" height="${h*.9}" fill="none" stroke="${a}" stroke-opacity=".55" stroke-width="1.5"/>`;
+      case 'laureles': return `<rect width="${w}" height="${h}" fill="#fffefa"/>${primary}<g fill="none" stroke="${a}" stroke-width="2.5" opacity=".34"><path d="M ${w*.135} ${h*.32} Q ${w*.07} ${h*.19} ${w*.16} ${h*.12}"/><path d="M ${w*.865} ${h*.68} Q ${w*.93} ${h*.81} ${w*.84} ${h*.88}"/></g><g fill="${a}" opacity=".24"><ellipse cx="${w*.103}" cy="${h*.24}" rx="12" ry="23" transform="rotate(-38 ${w*.103} ${h*.24})"/><ellipse cx="${w*.112}" cy="${h*.18}" rx="12" ry="23" transform="rotate(35 ${w*.112} ${h*.18})"/><ellipse cx="${w*.897}" cy="${h*.76}" rx="12" ry="23" transform="rotate(-38 ${w*.897} ${h*.76})"/><ellipse cx="${w*.888}" cy="${h*.82}" rx="12" ry="23" transform="rotate(35 ${w*.888} ${h*.82})"/></g>`;
+      case 'gradiente': return `<defs><linearGradient id="backgroundGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${b}"/><stop offset=".30" stop-color="#fff"/><stop offset=".7" stop-color="#fff"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="${w}" height="${h}" fill="url(#backgroundGradient)"/>${primary}`;
+      case 'infantil': return `<rect width="${w}" height="${h}" fill="#fffefb"/><circle cx="${w*.13}" cy="${h*.15}" r="${w*.11}" fill="${b}" opacity=".7"/><circle cx="${w*.87}" cy="${h*.86}" r="${w*.11}" fill="${b}" opacity=".7"/><rect x="${pad}" y="${h*.05}" width="${w-2*pad}" height="${h*.90}" fill="none" stroke="${a}" stroke-width="3" stroke-dasharray="10 7"/>`;
+      case 'minimal': return `<rect width="${w}" height="${h}" fill="#fff"/><rect x="${pad+12}" y="${h*.055+10}" width="${w-2*pad-24}" height="${h*.89-20}" fill="none" stroke="#d5dbe2" stroke-width="1.5"/>`;
+      default: return `<rect width="${w}" height="${h}" fill="#fff"/>${rings}${primary}${fine}`;
+    }
+  }
+
+  function certSvgData(indexOverride=null){
+    const d=currentDocData(indexOverride);
+    const vertical=d.orientation==='vertical';
+    const w=vertical?794:1123;
+    const h=vertical?1123:794;
+    const titleFont=fontForSvg();
+    const bodyFont='Inter, Arial, sans-serif';
+    const nameFont=titleFont;
+
+    const requestedTitle=parseInt($('titleSize').value||'58',10);
+    const requestedName=parseInt($('nameSize').value||'76',10);
+    const requestedBody=parseInt($('bodySize').value||'24',10);
+
+    // Match the preview widths. Font sliders remain authoritative unless a specific
+    // text block is physically too long to fit in its safe area.
+    const titleMaxW=w*(vertical?0.86:0.82);
+    const nameMaxW=w*(vertical?0.84:0.76);
+    const recMaxW=w*(vertical?0.84:0.78);
+    const msgMaxW=w*(vertical?0.82:0.74);
+
+    const signatureLineY=vertical?h*0.90:h*0.88;
+    const signatureTextY=signatureLineY+(vertical?30:25);
+    const signatureImgH=vertical?66:56;
+    const signatureImgY=signatureLineY-signatureImgH-8;
+    const safeUpperBottom=signatureImgY-(vertical?42:36);
+
+    let gapScale=1;
+    let fontScale=1;
+    let layout=null;
+
+    const computeLayout=()=>{
+      const titleStart=Math.max(28,Math.round(requestedTitle*fontScale));
+      const nameStart=Math.max(34,Math.round(requestedName*fontScale));
+      const bodyStart=Math.max(14,Math.round(requestedBody*fontScale));
+
+      const titleFit=fitSvgBlock(d.title,titleMaxW,titleStart,28,titleFont,'700',vertical?3:2);
+      const nameFit=fitSvgBlock(d.name,nameMaxW,nameStart,34,nameFont,'700',vertical?3:2);
+      const kickerSize=Math.max(14,Math.min(20,Math.round((requestedBody-4)*fontScale)));
+      const recognitionFit=d.recognition
+        ? fitSvgBlock(d.recognition,recMaxW,Math.max(17,Math.round(Math.max(22,Math.min(30,requestedBody+3))*fontScale)),16,bodyFont,'800',2)
+        : {size:0,lines:[]};
+      const messageFit=d.message
+        ? fitSvgBlock(d.message,msgMaxW,bodyStart,14,bodyFont,'400',vertical?7:5)
+        : {size:bodyStart,lines:[]};
+
+      const titleLH=Math.round(titleFit.size*1.02);
+      const nameLH=Math.round(nameFit.size*1.02);
+      const recLH=Math.round(recognitionFit.size*1.18);
+      const msgLH=Math.round(messageFit.size*1.38);
+      const schoolSize=Math.max(15,Math.min(20,w*0.017));
+
+      const gSchoolTitle=Math.max(18,Math.round((vertical?34:28)*gapScale));
+      const gTitleKicker=Math.max(18,Math.round((vertical?32:28)*gapScale));
+      const gKickerName=Math.max(16,Math.round((vertical?28:24)*gapScale));
+      const gUnderlineRec=Math.max(18,Math.round((vertical?32:27)*gapScale));
+      const gRecMsg=Math.max(12,Math.round((vertical?23:18)*gapScale));
+
+      const schoolY=h*(vertical?0.105:0.115);
+      const schoolBottom=schoolY+schoolSize*0.30;
+      const titleY=schoolBottom+gSchoolTitle+titleFit.size*0.78;
+      const titleLastBaseline=titleY+(titleFit.lines.length-1)*titleLH;
+      const titleBottom=titleLastBaseline+titleFit.size*0.28;
+      const kickerY=titleBottom+gTitleKicker+kickerSize*0.72;
+      const kickerBottom=kickerY+kickerSize*0.25;
+      const nameY=kickerBottom+gKickerName+nameFit.size*0.76;
+      const nameLastBaseline=nameY+(nameFit.lines.length-1)*nameLH;
+      const nameBottom=nameLastBaseline+nameFit.size*0.22;
+      const underlineY=nameBottom+Math.max(5,nameFit.size*0.055);
+
+      let cursor=underlineY;
+      let recognitionY=null, recognitionBottom=cursor;
+      if(d.recognition){
+        recognitionY=cursor+gUnderlineRec+recognitionFit.size*0.72;
+        recognitionBottom=recognitionY+(recognitionFit.lines.length-1)*recLH+recognitionFit.size*0.28;
+        cursor=recognitionBottom;
+      }
+
+      let messageY=null, messageBottom=cursor;
+      if(messageFit.lines.length){
+        messageY=cursor+gRecMsg+messageFit.size*0.76;
+        messageBottom=messageY+(messageFit.lines.length-1)*msgLH+messageFit.size*0.28;
+        cursor=messageBottom;
+      }
+
+      const metaY=Math.min(signatureImgY-22,Math.max(cursor+(vertical?32:28),h*(vertical?0.765:0.74)));
+      return {titleFit,nameFit,recognitionFit,messageFit,kickerSize,schoolSize,titleLH,nameLH,recLH,msgLH,
+        schoolY,titleY,kickerY,nameY,underlineY,recognitionY,messageY,cursor,metaY};
+    };
+
+    // Preserve font sizes first. Compact whitespace before shrinking type.
+    for(let i=0;i<8;i++){
+      layout=computeLayout();
+      if(layout.cursor<=safeUpperBottom) break;
+      gapScale=Math.max(0.56,gapScale-0.08);
+    }
+    // Only extreme content triggers a proportional safety fit.
+    for(let i=0;i<16 && layout.cursor>safeUpperBottom;i++){
+      fontScale=Math.max(0.76,fontScale-0.015);
+      layout=computeLayout();
+    }
+
+    const {titleFit,nameFit,recognitionFit,messageFit,kickerSize,schoolSize,titleLH,nameLH,recLH,msgLH,
+      schoolY,titleY,kickerY,nameY,underlineY,recognitionY,messageY,metaY}=layout;
+
+    const bgTag=exportBackground(d,w,h);
+    const logoTag=logoData?`<image href="${logoData}" x="${w*0.06}" y="${h*0.055}" width="${w*0.12}" height="${h*0.09}" preserveAspectRatio="xMidYMid meet"/>`:'';
+    const sigW=w*0.22;
+    const signTag=signatureData?`<image href="${signatureData}" x="${w*0.18}" y="${signatureImgY}" width="${sigW}" height="${signatureImgH}" preserveAspectRatio="xMidYMid meet"/>`:'';
+    const signTag2=signatureData2?`<image href="${signatureData2}" x="${w*0.60}" y="${signatureImgY}" width="${sigW}" height="${signatureImgH}" preserveAspectRatio="xMidYMid meet"/>`:'';
+
+    const titleTag=svgMultiline(titleFit.lines,'50%',titleY,titleLH,titleFont,titleFit.size,'700','#17324d');
+    const nameTag=svgMultiline(nameFit.lines,'50%',nameY,nameLH,nameFont,nameFit.size,'700',d.accent);
+    const recTag=d.recognition?svgMultiline(recognitionFit.lines,'50%',recognitionY,recLH,bodyFont,recognitionFit.size,'800','#243243'):'';
+    const msgTag=messageFit.lines.length?svgMultiline(messageFit.lines,'50%',messageY,msgLH,bodyFont,messageFit.size,'400','#475467'):'';
+
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+      <rect width="100%" height="100%" fill="#ffffff"/>
+      ${bgTag}
+      ${logoTag}
+      <text x="50%" y="${schoolY}" text-anchor="middle" font-family="${bodyFont}" font-size="${schoolSize}" font-weight="700" letter-spacing="3" fill="#64748b">${escapeXml(d.school)}</text>
+      ${titleTag}
+      <text x="50%" y="${kickerY}" text-anchor="middle" font-family="${bodyFont}" font-size="${kickerSize}" font-weight="700" letter-spacing="2" fill="#6b7280">${escapeXml(d.kicker.toUpperCase())}</text>
+      ${nameTag}
+      <line x1="${w*0.26}" y1="${underlineY}" x2="${w*0.74}" y2="${underlineY}" stroke="${d.accent}" stroke-width="2"/>
+      ${recTag}
+      ${msgTag}
+      <text x="${w*0.43}" y="${metaY}" text-anchor="end" font-family="${bodyFont}" font-size="14" font-weight="600" fill="#667085">${escapeXml(d.course)}</text>
+      <text x="${w*0.57}" y="${metaY}" text-anchor="start" font-family="${bodyFont}" font-size="14" font-weight="600" fill="#667085">${escapeXml(d.date)}</text>
+      ${signTag}
+      ${signTag2}
+      <line x1="${w*0.18}" y1="${signatureLineY}" x2="${w*0.40}" y2="${signatureLineY}" stroke="#94a3b8"/>
+      <line x1="${w*0.60}" y1="${signatureLineY}" x2="${w*0.82}" y2="${signatureLineY}" stroke="#94a3b8"/>
+      <text x="${w*0.29}" y="${signatureTextY}" text-anchor="middle" font-family="${bodyFont}" font-size="12" fill="#475467">${escapeXml(d.signer1)}</text>
+      <text x="${w*0.71}" y="${signatureTextY}" text-anchor="middle" font-family="${bodyFont}" font-size="12" fill="#475467">${escapeXml(d.signer2)}</text>
+    </svg>`;
+  }
+
+  function fontForSvg(){
+    const map={
+      playfair:"'Playfair Display', Georgia, serif",
+      dm:"'DM Serif Display', 'Times New Roman', serif",
+      cormorant:"'Cormorant Garamond', Baskerville, Georgia, serif",
+      lora:"'Lora', 'Palatino Linotype', Georgia, serif",
+      merriweather:"'Merriweather', Cambria, Georgia, serif",
+      montserrat:"'Montserrat', Arial, sans-serif",
+      raleway:"'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      poppins:"'Poppins', 'Trebuchet MS', Arial, sans-serif",
+      quicksand:"'Quicksand', 'Arial Rounded MT Bold', 'Trebuchet MS', sans-serif",
+      manrope:"'Manrope', Verdana, Arial, sans-serif"
+    };
+    return map[$('fontFamily').value]||map.playfair;
+  }
+
+  // The SVG image renderer does not reliably inherit Google Fonts from the page.
+  // Draw SVG decorations/images first, then draw its exact text coordinates with
+  // Canvas 2D after loading the chosen font in the host document.
+  function textPosition(value, total){
+    const v=String(value||'0').trim();
+    if(v.endsWith('%')) return (parseFloat(v)||0)/100*total;
+    return parseFloat(v)||0;
+  }
+
+  function renderSvgTextOnCanvas(ctx, textNodes, w, h){
+    for(const node of textNodes){
+      const size=parseFloat(node.getAttribute('font-size'))||20;
+      const family=node.getAttribute('font-family')||'Arial, sans-serif';
+      const weight=node.getAttribute('font-weight')||'400';
+      const align=node.getAttribute('text-anchor')||'start';
+      const color=node.getAttribute('fill')||'#273449';
+      const tracking=parseFloat(node.getAttribute('letter-spacing')||'0');
+      const baseX=textPosition(node.getAttribute('x'),w);
+      let baseline=textPosition(node.getAttribute('y'),h);
+      ctx.save();
+      ctx.fillStyle=color;
+      ctx.font=svgFontString(size,family,weight);
+      ctx.textBaseline='alphabetic';
+      ctx.textAlign=align==='middle'?'center':align==='end'?'right':'left';
+      const renderLine=(value,x,y)=>{
+        const text=String(value||'');
+        if(!tracking){ctx.fillText(text,x,y);return;}
+        // Letter-spacing is implemented without relying on optional Canvas APIs.
+        const chars=Array.from(text);
+        const total=ctx.measureText(text).width+Math.max(0,chars.length-1)*tracking;
+        let xx=ctx.textAlign==='center'?x-total/2:ctx.textAlign==='right'?x-total:x;
+        const oldAlign=ctx.textAlign;
+        ctx.textAlign='left';
+        chars.forEach((ch,i)=>{ctx.fillText(ch,xx,y);xx+=ctx.measureText(ch).width+(i===chars.length-1?0:tracking)});
+        ctx.textAlign=oldAlign;
+      };
+      const spans=Array.from(node.querySelectorAll('tspan'));
+      if(spans.length){
+        for(const tspan of spans){
+          if(tspan.hasAttribute('dy')) baseline+=parseFloat(tspan.getAttribute('dy'))||0;
+          if(tspan.hasAttribute('y')) baseline=textPosition(tspan.getAttribute('y'),h);
+          const x=tspan.hasAttribute('x')?textPosition(tspan.getAttribute('x'),w):baseX;
+          renderLine(tspan.textContent,x,baseline);
+        }
+      }else renderLine(node.textContent,baseX,baseline);
+      ctx.restore();
+    }
+  }
+
+  async function svgToCanvas(indexOverride=null,targetDpi=300){
+    // Explicitly request actual fonts before measuring layout and drawing.
+    const meta=fontMeta[$('fontFamily').value]||fontMeta.playfair;
+    if(document.fonts?.load){
+      await Promise.allSettled([
+        document.fonts.load(`700 64px "${meta.name}"`),
+        document.fonts.load('400 24px "Inter"'),
+        document.fonts.load('700 24px "Inter"'),
+        document.fonts.load('800 24px "Inter"')
+      ]);
+    }
+    const source=certSvgData(indexOverride);
+    const doc=new DOMParser().parseFromString(source,'image/svg+xml');
+    if(doc.querySelector('parsererror')) throw new Error('No se pudo interpretar el diploma SVG');
+    const svgRoot=doc.documentElement;
+    const w=parseFloat(svgRoot.getAttribute('width'))||1123;
+    const h=parseFloat(svgRoot.getAttribute('height'))||794;
+    const textNodes=Array.from(svgRoot.querySelectorAll('text'));
+    textNodes.forEach(node=>node.remove());
+    const shapes=new XMLSerializer().serializeToString(svgRoot);
+    const orientation=$('orientation').value;
+    const dim={w:Math.round(8.2677165354*targetDpi),h:Math.round(11.6929133858*targetDpi)};
+    const target=orientation==='vertical'?{w:dim.w,h:dim.h}:{w:dim.h,h:dim.w};
+    const blob=new Blob([shapes],{type:'image/svg+xml;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    try{
+      const img=await new Promise((resolve,reject)=>{
+        const image=new Image();image.onload=()=>resolve(image);image.onerror=reject;image.src=url;
+      });
+      const canvas=document.createElement('canvas');
+      canvas.width=target.w;canvas.height=target.h;
+      const ctx=canvas.getContext('2d');
+      if(!ctx) throw new Error('Canvas no disponible');
+      ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+      ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      ctx.setTransform(target.w/w,0,0,target.h/h,0,0);
+      renderSvgTextOnCanvas(ctx,textNodes,w,h);
+      ctx.setTransform(1,0,0,1,0,0);
+      return canvas;
+    }finally{URL.revokeObjectURL(url)}
+  }
+
+  async function downloadPng(){
+    try{
+      showToast('Generando imagen en alta resolución…');
+      const canvas=await svgToCanvas(null,300);
+      const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
+      if(!blob) throw new Error('PNG generation failed');
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;
+      a.download=(currentName()+' - '+getCurrentDocumentTitle()).replace(/[\\/:*?"<>|]/g,'_')+'.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),1500);
+      showToast('Imagen descargada en alta resolución');
+    }catch(e){
+      console.error(e);
+      showToast('No pude generar la imagen.');
+    }
+  }
+
+  async function canvasToJpegBytes(canvas, quality=0.94){
+    const blob = await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',quality));
+    if(!blob) throw new Error('JPEG generation failed');
+    return new Uint8Array(await blob.arrayBuffer());
+  }
+
+  function asciiBytes(text){
+    return new TextEncoder().encode(text);
+  }
+
+  function concatBytes(parts){
+    const total = parts.reduce((sum,p)=>sum+p.length,0);
+    const out = new Uint8Array(total);
+    let offset=0;
+    for(const p of parts){ out.set(p,offset); offset+=p.length; }
+    return out;
+  }
+
+  function makePdfFromJpegs(images, orientation='horizontal'){
+    if(!images.length) throw new Error('No images for PDF');
+
+    const pageW = orientation==='vertical' ? 595.28 : 841.89;
+    const pageH = orientation==='vertical' ? 841.89 : 595.28;
+
+    const objectCount = 2 + images.length * 3;
+    const objects = new Array(objectCount + 1);
+
+    objects[1] = asciiBytes('<< /Type /Catalog /Pages 2 0 R >>');
+
+    const kids = [];
+    for(let i=0;i<images.length;i++){
+      const pageObj = 3 + i*3;
+      kids.push(`${pageObj} 0 R`);
+    }
+    objects[2] = asciiBytes(`<< /Type /Pages /Kids [${kids.join(' ')}] /Count ${images.length} >>`);
+
+    for(let i=0;i<images.length;i++){
+      const pageObj = 3 + i*3;
+      const contentObj = pageObj + 1;
+      const imageObj = pageObj + 2;
+      const img = images[i];
+      const imageName = `Im${i+1}`;
+
+      objects[pageObj] = asciiBytes(
+        `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW.toFixed(2)} ${pageH.toFixed(2)}] ` +
+        `/Resources << /XObject << /${imageName} ${imageObj} 0 R >> >> /Contents ${contentObj} 0 R >>`
+      );
+
+      const content = `q\n${pageW.toFixed(2)} 0 0 ${pageH.toFixed(2)} 0 0 cm\n/${imageName} Do\nQ\n`;
+      const contentBytes = asciiBytes(content);
+      objects[contentObj] = concatBytes([
+        asciiBytes(`<< /Length ${contentBytes.length} >>\nstream\n`),
+        contentBytes,
+        asciiBytes('endstream')
+      ]);
+
+      objects[imageObj] = concatBytes([
+        asciiBytes(
+          `<< /Type /XObject /Subtype /Image /Width ${img.width} /Height ${img.height} ` +
+          `/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${img.bytes.length} >>\nstream\n`
+        ),
+        img.bytes,
+        asciiBytes('\nendstream')
+      ]);
+    }
+
+    const header = new Uint8Array([0x25,0x50,0x44,0x46,0x2D,0x31,0x2E,0x34,0x0A,0x25,0xE2,0xE3,0xCF,0xD3,0x0A]);
+    const bodyParts = [header];
+    const offsets = new Array(objectCount+1).fill(0);
+    let cursor = header.length;
+
+    for(let i=1;i<=objectCount;i++){
+      offsets[i]=cursor;
+      const prefix = asciiBytes(`${i} 0 obj\n`);
+      const suffix = asciiBytes('\nendobj\n');
+      bodyParts.push(prefix, objects[i], suffix);
+      cursor += prefix.length + objects[i].length + suffix.length;
+    }
+
+    const xrefOffset = cursor;
+    let xref = `xref\n0 ${objectCount+1}\n0000000000 65535 f \n`;
+    for(let i=1;i<=objectCount;i++){
+      xref += String(offsets[i]).padStart(10,'0') + ' 00000 n \n';
+    }
+    const trailer =
+      `trailer\n<< /Size ${objectCount+1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+
+    bodyParts.push(asciiBytes(xref + trailer));
+    return new Blob(bodyParts,{type:'application/pdf'});
+  }
+
+  function downloadBlob(blob, filename){
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),3000);
+  }
+
+  async function downloadCurrentPdf(){
+    try{
+      showToast('Generando PDF…');
+      const orientation=$('orientation').value;
+      const dpi=260;
+      const canvas=await svgToCanvas(null,dpi);
+      const bytes=await canvasToJpegBytes(canvas,0.95);
+      const pdfBlob=makePdfFromJpegs([{bytes,width:canvas.width,height:canvas.height}],orientation);
+      const filename=(currentName()+' - '+getCurrentDocumentTitle()).replace(/[\\/:*?"<>|]/g,'_')+'.pdf';
+      downloadBlob(pdfBlob,filename);
+      showToast('PDF descargado');
+    }catch(e){
+      console.error(e);
+      showToast('No pude generar el PDF.');
+    }
+  }
+
+  async function downloadAllPdf(){
+    if(mode==='bulk') parseBulk(false);
+    if(mode!=='bulk' || !bulkData.length){
+      return downloadCurrentPdf();
+    }
+    try{
+      const orientation=$('orientation').value;
+      const oldIndex=currentIndex;
+      const images=[];
+      const dpi=220;
+
+      for(let i=0;i<bulkData.length;i++){
+        showToast(`Generando PDF ${i+1} de ${bulkData.length}…`);
+        currentIndex=i;
+        const canvas=await svgToCanvas(i,dpi);
+        const bytes=await canvasToJpegBytes(canvas,0.92);
+        images.push({bytes,width:canvas.width,height:canvas.height});
+        await new Promise(r=>setTimeout(r,0));
+      }
+
+      currentIndex=oldIndex;
+      render();
+
+      const pdfBlob=makePdfFromJpegs(images,orientation);
+      const base=($('courseName').value||'certificados').trim();
+      const filename=(base+' - '+getCurrentDocumentTitle()).replace(/[\\/:*?"<>|]/g,'_')+'.pdf';
+      downloadBlob(pdfBlob,filename);
+      showToast(`PDF con ${bulkData.length} certificados descargado`);
+    }catch(e){
+      console.error(e);
+      showToast('No pude generar el PDF completo.');
+    }
+  }
+
+
+  window.addEventListener('resize',()=>requestAnimationFrame(()=>{applyPreviewScale();autoFitCertificateText();}));
+  qsa('.tab').forEach(btn=>btn.addEventListener('click',()=>switchTab(btn.dataset.tab)));
+  ['studentName','schoolName','courseName','customDocTitle','dateText','kickerText','messageText','teacherName','secondSigner','customRecognition','accentColor','softColor','titleSize','nameSize','bodySize'].forEach(id=>$(id).addEventListener('input',render));
+  ['documentType','recognition','designStyle','orientation','fontFamily','bulkMode','bulkDefaultRecognition','useCustomDesign'].forEach(id=>$(id).addEventListener('change',()=>{updateDocTypeUI(); updateRecognitionUI(); if(id==='bulkMode'||id==='bulkDefaultRecognition') parseBulk(false); render();}));
+  $('fontFamily').addEventListener('change',loadSelectedFont);
+  $('palettePreset').addEventListener('change',applyPalettePreset);
+  const customDesignInput=$('hiddenCustomDesignInput');
+  const uploadCustomDesignBtn=$('uploadCustomDesignBtn');
+  const removeCustomDesignBtn=$('removeCustomDesignBtn');
+  if(uploadCustomDesignBtn && customDesignInput){
+    uploadCustomDesignBtn.addEventListener('click',()=>customDesignInput.click());
+    customDesignInput.addEventListener('change',e=>{
+      const file=e.target.files?.[0]; if(!file) return;
+      const fr=new FileReader();
+      fr.onload=()=>{customDesignData=fr.result; $('useCustomDesign').value='yes'; render(); showToast('Diseño propio cargado');};
+      fr.readAsDataURL(file);
+    });
+  }
+  if(removeCustomDesignBtn){removeCustomDesignBtn.addEventListener('click',()=>{customDesignData=''; $('useCustomDesign').value='no'; render(); showToast('Diseño propio quitado');});}
+
+  $('bulkInput').addEventListener('input',()=>{parseBulk(false);saveState();});
+  $('parseBulkBtn').addEventListener('click',()=>parseBulk(true));
+  $('bulkList').addEventListener('click',e=>{const btn=e.target.closest('[data-preview]'); if(btn){currentIndex=Number(btn.dataset.preview)||0; render();}});
+
+  $('fontDropdownBtn').addEventListener('click',e=>{e.stopPropagation(); const dd=$('fontDropdown'); const open=!dd.classList.contains('open'); dd.classList.toggle('open',open); $('fontDropdownBtn').setAttribute('aria-expanded',String(open));});
+  $('fontDropdownMenu').addEventListener('click',e=>{const btn=e.target.closest('.font-menu-option'); if(!btn) return; $('fontFamily').value=btn.dataset.font; $('fontDropdown').classList.remove('open'); $('fontDropdownBtn').setAttribute('aria-expanded','false'); render(); loadSelectedFont();});
+  document.addEventListener('click',e=>{if(!$('fontDropdown').contains(e.target)){ $('fontDropdown').classList.remove('open'); $('fontDropdownBtn').setAttribute('aria-expanded','false'); }});
+
+  $('prevBtn').addEventListener('click',()=>{if(currentIndex>0){currentIndex--; render();}});
+  $('nextBtn').addEventListener('click',()=>{const total=mode==='bulk'?bulkData.length:1; if(currentIndex<total-1){currentIndex++; render();}});
+  $('downloadPngBtn').addEventListener('click',downloadPng); $('printCurrentBtn').addEventListener('click',downloadCurrentPdf); $('printAllBtn').addEventListener('click',downloadAllPdf);
+  $('saveTemplateBtn').addEventListener('click',saveTemplate);
+  $('savedTemplates').addEventListener('click',e=>{const load=e.target.closest('[data-load-template]'); const del=e.target.closest('[data-delete-template]'); if(load) loadTemplate(Number(load.dataset.loadTemplate)); if(del) openModal('Eliminar plantilla','<p>¿Querés eliminar esta plantilla guardada?</p>',()=>deleteTemplate(Number(del.dataset.deleteTemplate)),'Eliminar')});
+  $('resetBtn').addEventListener('click',()=>openModal('Crear nuevo diploma','<p>Se limpiarán los campos actuales, pero las plantillas guardadas se conservan.</p>',resetCurrent,'Empezar'));
+  $('clearDemoBtn').addEventListener('click',()=>openModal('Eliminar datos de prueba','<p>Se eliminarán solamente los datos demo y la app quedará vacía para que cargues los tuyos. Los datos de prueba no volverán a aparecer al recargar.</p>',clearDemo,'Eliminar'));
+  $('uploadSignature1Btn').addEventListener('click',()=>$('hiddenSignatureInput1').click());
+  $('hiddenSignatureInput1').addEventListener('change',e=>loadSignatureFile(e.target.files?.[0],1));
+  $('drawSignature1Btn').addEventListener('click',()=>openSignaturePad(1));
+  $('removeSignature1Btn').addEventListener('click',()=>{signatureData=''; render(); showToast('Firma 1 quitada');});
+  $('uploadSignature2Btn').addEventListener('click',()=>$('hiddenSignatureInput2').click());
+  $('hiddenSignatureInput2').addEventListener('change',e=>loadSignatureFile(e.target.files?.[0],2));
+  $('drawSignature2Btn').addEventListener('click',()=>openSignaturePad(2));
+  $('removeSignature2Btn').addEventListener('click',()=>{signatureData2=''; render(); showToast('Firma 2 quitada');});
+  $('logoInput').addEventListener('change',e=>{const file=e.target.files?.[0]; if(!file){logoData=''; render(); return;} const fr=new FileReader(); fr.onload=()=>{logoData=fr.result; render(); showToast('Logo cargado')}; fr.readAsDataURL(file)});
+  $('modalCancel').addEventListener('click',closeModal);
+  $('modalConfirm').addEventListener('click',()=>{const fn=modalAction; try{ if(fn) fn(); }catch(err){ console.error(err); showToast('Hubo un problema al completar esa acción.'); } finally { closeModal(); }});
+  $('modalBackdrop').addEventListener('click',e=>{if(e.target===$('modalBackdrop')) closeModal()});
+
+  const demoRemoved=storageGet(DEMO_REMOVED_KEY)==='1';
+  if(demoRemoved){$('demoBadge').classList.add('hidden'); $('clearDemoBtn').classList.add('hidden'); $('demoNote').classList.add('hidden');}
+  const saved=readState();
+  if(saved) applyState(saved); else if(!demoRemoved) applyState(DEMO_STATE); else applyState({...DEMO_STATE,schoolName:'',courseName:'',studentName:'',teacherName:'',messageText:'',dateText:'',bulkInput:'',logoData:'',signatureData:'',signatureData2:''});
+  renderTemplates(); parseBulk(false); render(); preloadFonts();
+})();
+</script>
+</body>
+</html>
